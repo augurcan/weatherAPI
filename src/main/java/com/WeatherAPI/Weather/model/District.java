@@ -1,10 +1,7 @@
 package com.WeatherAPI.Weather.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-
 import java.util.List;
-@Data
 @Entity
 @Table(schema = "district")
 public class District {
@@ -19,4 +16,46 @@ public class District {
     private City city;
     @OneToMany(mappedBy = "district")
     private List<Weather> weatherList;
+
+    public District() {
+    }
+
+    public District(int id, String name, City city, List<Weather> weatherList) {
+        this.id = id;
+        this.name = name;
+        this.city = city;
+        this.weatherList = weatherList;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public List<Weather> getWeatherList() {
+        return weatherList;
+    }
+
+    public void setWeatherList(List<Weather> weatherList) {
+        this.weatherList = weatherList;
+    }
 }

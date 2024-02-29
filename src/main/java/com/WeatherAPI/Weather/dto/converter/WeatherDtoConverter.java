@@ -19,39 +19,39 @@ public class WeatherDtoConverter {
         this.districtRepository = districtRepository;
     }
     public WeatherDto convertToDto (Weather weather){
-        return WeatherDto.builder()
-        .id(weather.getId())
-        .districtId(weather.getDistrict().getId())
-        .cityId(weather.getCity().getId())
-        .date(weather.getDate())
-        .hour(weather.getHour())
-        .name(weather.getName())
-        .temperature(weather.getTemperature())
-        .feltTemperature(weather.getFeltTemperature())
-        .humidity(weather.getHumidity())
-        .windDirection(weather.getWindDirection())
-        .maxWind(weather.getMaxWind())
-        .averageWind(weather.getAverageWind())
-        .build();
+        WeatherDto weatherDto = new WeatherDto();
+        weatherDto.setId(weather.getId());
+        weatherDto.setDistrictId(weather.getDistrict().getId());
+        weatherDto.setCityId(weather.getCity().getId());
+        weatherDto.setDate(weather.getDate());
+        weatherDto.setHour(weather.getHour());
+        weatherDto.setName(weather.getName());
+        weatherDto.setTemperature(weather.getTemperature());
+        weatherDto.setFeltTemperature(weather.getFeltTemperature());
+        weatherDto.setHumidity(weather.getHumidity());
+        weatherDto.setWindDirection(weather.getWindDirection());
+        weatherDto.setMaxWind(weather.getMaxWind());
+        weatherDto.setAverageWind(weather.getAverageWind());
+        return weatherDto;
     }
     public Weather convertToModel (WeatherDto weatherDto){
         City city = cityRepository.findById(weatherDto.getCityId())
             .orElseThrow(()->new ResourceNotFoundException("City","Id",weatherDto.getCityId()));
         District district = districtRepository.findById(weatherDto.getDistrictId())
             .orElseThrow(()->new ResourceNotFoundException("District","Id",weatherDto.getDistrictId()));
-        return Weather.builder()
-        .id(weatherDto.getId())
-        .district(district)
-        .city(city)
-        .date(weatherDto.getDate())
-        .hour(weatherDto.getHour())
-        .name(weatherDto.getName())
-        .temperature(weatherDto.getTemperature())
-        .feltTemperature(weatherDto.getFeltTemperature())
-        .humidity(weatherDto.getHumidity())
-        .windDirection(weatherDto.getWindDirection())
-        .maxWind(weatherDto.getMaxWind())
-        .averageWind(weatherDto.getAverageWind())
-        .build();
+        Weather weather = new Weather();
+        weather.setId(weatherDto.getId());
+        weather.setDistrict(district);
+        weather.setCity(city);
+        weather.setDate(weatherDto.getDate());
+        weather.setHour(weatherDto.getHour());
+        weather.setName(weatherDto.getName());
+        weather.setTemperature(weatherDto.getTemperature());
+        weather.setFeltTemperature(weatherDto.getFeltTemperature());
+        weather.setHumidity(weatherDto.getHumidity());
+        weather.setWindDirection(weatherDto.getWindDirection());
+        weather.setMaxWind(weatherDto.getMaxWind());
+        weather.setAverageWind(weatherDto.getAverageWind());
+        return weather;
     }
 }

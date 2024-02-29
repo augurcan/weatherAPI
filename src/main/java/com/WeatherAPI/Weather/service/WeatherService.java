@@ -5,6 +5,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.WeatherAPI.Weather.model.City;
+import com.WeatherAPI.Weather.model.District;
+import com.WeatherAPI.Weather.repository.CityRepository;
+import com.WeatherAPI.Weather.repository.DistrictRepository;
 import org.springframework.stereotype.Service;
 
 import com.WeatherAPI.Weather.dto.WeatherDto;
@@ -16,10 +20,14 @@ import com.WeatherAPI.Weather.repository.WeatherRepository;
 @Service
 public class WeatherService {
     private final WeatherRepository weatherRepository;
+    private final CityRepository cityRepository;
+    private final DistrictRepository districtRepository;
     private final WeatherDtoConverter weatherDtoConverter;
 
-    public WeatherService(WeatherRepository weatherRepository, WeatherDtoConverter weatherDtoConverter) {
+    public WeatherService(WeatherRepository weatherRepository, CityRepository cityRepository, DistrictRepository districtRepository, WeatherDtoConverter weatherDtoConverter) {
         this.weatherRepository = weatherRepository;
+        this.cityRepository = cityRepository;
+        this.districtRepository = districtRepository;
         this.weatherDtoConverter = weatherDtoConverter;
     }
     public WeatherDto addWeather(WeatherDto weatherDto){
@@ -28,19 +36,24 @@ public class WeatherService {
         return weatherDtoConverter.convertToDto(savedWeather);
     }
     public WeatherDto updateWeather(WeatherDto weatherDto, Long id){
+        City city = cityRepository.findById(weatherDto.getCityId())
+                .orElseThrow(()->new ResourceNotFoundException("City","Id",weatherDto.getCityId()));
+        District district = districtRepository.findById(weatherDto.getDistrictId())
+                .orElseThrow(()->new ResourceNotFoundException("District","Id",weatherDto.getDistrictId()));
         Weather weather = weatherRepository.findById(id)
             .orElseThrow(()-> new ResourceNotFoundException("Weather", "Id", id));
-        Weather.builder()
-            .name(weatherDto.getName())
-            .date(weatherDto.getDate())
-            .hour(weatherDto.getHour())
-            .temperature(weatherDto.getTemperature())
-            .feltTemperature(weatherDto.getFeltTemperature())
-            .humidity(weatherDto.getHumidity())
-            .windDirection(weatherDto.getWindDirection())
-            .maxWind(weatherDto.getMaxWind())
-            .averageWind(weatherDto.getAverageWind())
-            .build();
+        weather.setId(weatherDto.getId());
+        weather.setDistrict(district);
+        weather.setCity(city);
+        weather.setDate(weatherDto.getDate());
+        weather.setHour(weatherDto.getHour());
+        weather.setName(weatherDto.getName());
+        weather.setTemperature(weatherDto.getTemperature());
+        weather.setFeltTemperature(weatherDto.getFeltTemperature());
+        weather.setHumidity(weatherDto.getHumidity());
+        weather.setWindDirection(weatherDto.getWindDirection());
+        weather.setMaxWind(weatherDto.getMaxWind());
+        weather.setAverageWind(weatherDto.getAverageWind());
         Weather savedWeather = weatherRepository.save(weather);
         return weatherDtoConverter.convertToDto(savedWeather);
     }
