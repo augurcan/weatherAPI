@@ -33,20 +33,20 @@ docker-compose down
 ![structure](images/weather.png)
 
 ## Endpoints
-	- GET
-		* 'localhost:8080/api/v1/weather'
-		* 'localhost:8080/api/v1/weather/weatherId'
-		* 'localhost:8080/api/v1/weather/cities/cityId'
-		* 'localhost:8080/api/v1/weather/district/districtId'
-		* 'localhost:8080/api/v1/weather/cities/cityId/date'
-		* 'localhost:8080/api/v1/weather/district/districtId/date'
-	- POST
-		* 'localhost:8080/api/v1/weather'
+- GET
+	* 'localhost:8080/api/v1/weather'
+	* 'localhost:8080/api/v1/weather/weatherId'
+	* 'localhost:8080/api/v1/weather/cities/cityId'
+	* 'localhost:8080/api/v1/weather/district/districtId'
+	* 'localhost:8080/api/v1/weather/cities/cityId/date'
+	* 'localhost:8080/api/v1/weather/district/districtId/date'
+- POST
+	* 'localhost:8080/api/v1/weather'
 			
-	- PUT
-		* 'localhost:8080/api/v1/weather/weatherId'
-	- DELETE
-		* 'localhost:8080/api/v1/weather/weatherId'
+- PUT
+	* 'localhost:8080/api/v1/weather/weatherId'
+- DELETE
+	* 'localhost:8080/api/v1/weather/weatherId'
 - WeatherDto:
 ```json
 
