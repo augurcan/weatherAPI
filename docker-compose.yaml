@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  weatherdb:
+    image: mysql:8.0
+    container_name: weather-mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: weather
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/mysql-data:/var/lib/mysql
+    restart: always
+
+  weather-api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: weather-api:0.0.1
+    container_name: weather-api-container
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://weatherdb:3306/weather
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: password
+    depends_on:
+      - weatherdb
+    restart: always
